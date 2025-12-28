@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shutter & Blooms - Professional Imaging</title>
+    
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              fontFamily: {
+                sans: ['Inter', 'sans-serif'],
+                display: ['Playfair Display', 'serif'],
+              },
+              colors: {
+                'sb-gold': '#d4af37',   
+                'sb-gold-light': '#f9f1d7',
+                'sb-emerald-dark': '#011a14', 
+                'sb-emerald-glow': '#022c22',
+              }
+            }
+          }
+        }
+    </script>
+    
+    <!-- Load Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Particles Background */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #022c22 0%, #011a14 100%);
+        }
+
+        /* Loading Text Shimmer */
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        .shimmer-text {
+            background: linear-gradient(90deg, #d4af37 0%, #f9f1d7 50%, #d4af37 100%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shimmer 3s linear infinite;
+        }
+
+        /* Cinematic Animations */
+        @keyframes revealUp {
+            from { opacity: 0; transform: translateY(40px); filter: blur(15px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        @keyframes simpleFade {
+            from { opacity: 0; }
+            to { opacity: 0.4; }
+        }
+
+        .reveal-element {
+            opacity: 0;
+        }
+
+        .is-visible {
+            animation: revealUp 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .footer-fade {
+            animation: simpleFade 2s ease-in forwards;
+            animation-delay: 1.5s;
+        }
+
+        /* Button Sweep Effect */
+        @keyframes sweep {
+            0% { transform: translateX(-100%) skewX(-25deg); }
+            50%, 100% { transform: translateX(200%) skewX(-25deg); }
+        }
+        .sweep-effect::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+            animation: sweep 4s infinite;
+        }
+
+        .glass-panel {
+            background: linear-gradient(135deg, rgba(1, 26, 20, 0.7) 0%, rgba(0, 0, 0, 0.8) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.8);
+        }
+
+        .quote-card {
+            background: rgba(212, 175, 55, 0.03);
+            border-radius: 1.5rem;
+            border-left: 2px solid rgba(212, 175, 55, 0.5);
+            transition: all 0.5s ease;
+        }
+
+        .quote-card:hover {
+            background: rgba(212, 175, 55, 0.08);
+            border-left: 2px solid #d4af37;
+        }
+
+        html, body {
+            background-color: #011a14;
+            color: white;
+            overflow-x: hidden;
+            font-size: 16px;
+        }
+
+        /* Ambient Glow */
+        .ambient-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Map Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Portfolio Grid specific styling */
+        .portfolio-thumb {
+            aspect-ratio: 1/1;
+            background-color: rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.25rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .portfolio-thumb:hover {
+            transform: scale(1.02);
+            border-color: rgba(212, 175, 55, 0.5);
+        }
+
+        .portfolio-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.9;
+        }
+
+        .img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(1, 26, 20, 0.6), transparent);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <canvas id="bg-canvas"></canvas>
+    <div class="ambient-glow top-0 right-0"></div>
+    <div class="ambient-glow bottom-20 left-0"></div>
+
+    <!-- 1. LOADING SCREEN -->
+    <div id="loadingScreen" class="fixed inset-0 flex flex-col items-center justify-center bg-sb-emerald-dark z-50 transition-opacity duration-1000">
+        <div class="flex-1 flex flex-col items-center justify-center">
+            <div class="relative text-center">
+                <h1 class="text-4xl md:text-5xl font-display uppercase tracking-[0.5em] shimmer-text mb-4">
+                    Shutter <span class="shimmer-text">&</span> Blooms
+                </h1>
+                <div class="w-32 h-[1px] bg-sb-gold/30 mx-auto mb-4"></div>
+                <p class="text-[10px] uppercase tracking-[0.4em] text-sb-gold-light/60 animate-pulse">Initializing Visionary Studio</p>
+            </div>
+            <div class="mt-16 w-12 h-12 border-t-2 border-sb-gold rounded-full animate-spin"></div>
+        </div>
+        
+        <!-- Footer Credit -->
+        <div class="pb-8 opacity-0 footer-fade">
+            <p class="text-[8px] tracking-[0.3em] uppercase text-sb-gold-light/80">Powered by SSCODING</p>
+        </div>
+    </div>
+
+    <!-- 2. INTRODUCTION PAGE (VISION & QUOTES) -->
+    <div id="introPage" class="hidden min-h-screen p-6 flex flex-col items-center opacity-0 transition-opacity duration-1000">
+        <div class="max-w-md w-full flex-1 flex flex-col pt-10">
+            
+            <header class="text-center mb-10 reveal-element" style="animation-delay: 0.2s;">
+                <p class="text-sb-gold text-[9px] uppercase tracking-[0.6em] mb-3 font-bold">A Visual Philosophy</p>
+                <h2 class="text-4xl font-display text-white leading-tight">Beyond The <br><span class="italic">Ordinary</span></h2>
+            </header>
+
+            <!-- Main Vision Panel -->
+            <div class="glass-panel p-10 rounded-[2.5rem] mb-10 reveal-element relative overflow-hidden" style="animation-delay: 0.4s;">
+                <div class="absolute top-0 right-0 w-20 h-20 border-t border-r border-sb-gold/20 rounded-tr-[2.5rem]"></div>
+                
+                <i class="fas fa-quote-left text-sb-gold/20 text-4xl absolute top-6 left-6"></i>
+                
+                <p class="text-xl font-display italic text-sb-gold-light leading-relaxed relative z-10 text-center">
+                    "We don't just take pictures; we capture the silent poetry of light and the blooming essence of the soul."
+                </p>
+            </div>
+
+            <!-- Eye Catching Quotes Section -->
+            <div class="space-y-6 mb-12">
+                <div class="quote-card p-6 reveal-element" style="animation-delay: 0.6s;">
+                    <p class="text-[13px] text-gray-300 italic leading-relaxed">
+                        "Perspective is everything. Using industry-leading <span class="text-sb-gold font-semibold">Sony & Canon</span> 4K imaging to turn moments into feelings."
+                    </p>
+                    <p class="text-sb-gold text-[8px] uppercase tracking-widest mt-3 font-bold">— The Standard</p>
+                </div>
+
+                <div class="quote-card p-6 reveal-element" style="animation-delay: 0.8s;">
+                    <p class="text-[13px] text-gray-300 italic leading-relaxed">
+                        "Timelessness isn't accidental. It is the result of seeing beauty where others see the mundane."
+                    </p>
+                    <p class="text-sb-gold text-[8px] uppercase tracking-widest mt-3 font-bold">— The Mission</p>
+                </div>
+
+                <div class="quote-card p-6 reveal-element" style="animation-delay: 1s;">
+                    <p class="text-[13px] text-gray-300 italic leading-relaxed">
+                        "Your story is unique. Our lens is merely the witness to its bloom."
+                    </p>
+                    <p class="text-sb-gold text-[8px] uppercase tracking-widest mt-3 font-bold">— The Promise</p>
+                </div>
+            </div>
+
+            <div class="mt-auto pb-10 reveal-element" style="animation-delay: 1.2s;">
+                <button onclick="goToHub()" class="w-full bg-sb-gold text-sb-emerald-dark font-bold py-5 rounded-2xl shadow-2xl transition-transform active:scale-95 relative overflow-hidden sweep-effect">
+                    <span class="text-xs uppercase tracking-[0.4em]">Step Into The Studio</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. BOOKING HUB PAGE -->
+    <div id="homePage" class="hidden min-h-screen p-6 pb-20 flex flex-col items-center opacity-0 transition-opacity duration-1000">
+        <div class="max-w-md w-full text-center">
+            
+            <div class="glass-panel p-10 rounded-[3.5rem] mt-20 mb-8">
+                <h2 class="text-4xl font-display text-white tracking-tight mb-2 uppercase leading-tight">Shutter <br> <span class="text-sb-gold">&</span> Blooms</h2>
+                <div class="w-10 h-[1px] bg-sb-gold/40 mx-auto mb-10"></div>
+
+                <div class="space-y-5">
+                    <!-- 1. WhatsApp Booking Service -->
+                    <a href="https://wa.me/94764252850" class="block w-full text-white bg-sb-gold/5 py-5 rounded-3xl transition-all active:scale-95 border border-sb-gold/30 flex items-center px-6 hover:bg-sb-gold/10">
+                        <i class="fab fa-whatsapp text-2xl text-[#25D366]"></i>
+                        <div class="text-left flex-1 pl-5">
+                            <span class="block font-bold text-sm uppercase tracking-widest">Book Your Session</span>
+                            <span class="text-[9px] text-sb-gold-light uppercase opacity-60">Direct Chat: 076 425 2850</span>
+                        </div>
+                    </a>
+
+                    <!-- 2. Facebook Portfolio -->
+                    <a href="https://www.facebook.com/profile.php?id=61584207510600&sk=about" target="_blank" class="block w-full text-white bg-white/5 py-5 rounded-3xl transition-all active:scale-95 border border-white/10 flex items-center px-6 hover:bg-white/10">
+                        <i class="fab fa-facebook-f text-xl text-[#1877F2]"></i>
+                        <div class="text-left flex-1 pl-6">
+                            <span class="block font-bold text-sm uppercase tracking-widest">Facebook Profile</span>
+                            <span class="text-[9px] text-gray-500 uppercase">Connect on social</span>
+                        </div>
+                    </a>
+
+                    <!-- 3. Instagram Portfolio -->
+                    <a href="https://www.instagram.com/shutterandbloomsl?igsh=MTl3eWF6emNtaXJleg%3D%3D" target="_blank" class="block w-full text-white bg-white/5 py-5 rounded-3xl transition-all active:scale-95 border border-white/10 flex items-center px-6 hover:bg-white/10">
+                        <i class="fab fa-instagram text-xl text-[#E4405F]"></i>
+                        <div class="text-left flex-1 pl-6">
+                            <span class="block font-bold text-sm uppercase tracking-widest">Instagram Feed</span>
+                            <span class="text-[9px] text-gray-500 uppercase">Daily inspirations</span>
+                        </div>
+                    </a>
+
+                    <!-- 4. Locate the Studio Button -->
+                    <button onclick="openMapModal()" class="block w-full text-white bg-white/5 py-5 rounded-3xl transition-all active:scale-95 border border-white/10 flex items-center px-6 hover:bg-white/10">
+                        <i class="fas fa-location-dot text-xl text-red-500"></i>
+                        <div class="text-left flex-1 pl-6">
+                            <span class="block font-bold text-sm uppercase tracking-widest">Locate the Studio</span>
+                            <span class="text-[9px] text-gray-500 uppercase">Kiribathgoda, Sri Lanka</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- PORTFOLIO PREVIEW SECTION -->
+            <div class="glass-panel p-8 rounded-[3rem] mb-10 overflow-hidden relative">
+                <div class="flex justify-between items-end mb-6">
+                    <div class="text-left">
+                        <p class="text-sb-gold text-[9px] uppercase tracking-[0.3em] font-bold">The Gallery</p>
+                        <h3 class="text-2xl font-display">Portfolio</h3>
+                    </div>
+                    <a href="https://www.instagram.com/shutterandbloomsl?igsh=MTl3eWF6emNtaXJleg%3D%3D" target="_blank" class="text-sb-gold text-[10px] uppercase tracking-widest border-b border-sb-gold/30 pb-1">View All</a>
+                </div>
+
+                <!-- Portfolio Grid with space for your own images -->
+                <div class="grid grid-cols-3 gap-3 mb-8">
+                    <!-- Image 1 -->
+                    <div class="portfolio-thumb">
+                        <img src="path_to_your_image_1.jpg" alt="Portfolio 1" onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'flex flex-col items-center justify-center h-full\'><i class=\'fas fa-image text-sb-gold/20 text-xl\'></i><span class=\'text-[7px] mt-1 text-sb-gold/40 uppercase tracking-tighter\'>Slot 1</span></div>'">
+                        <div class="img-overlay"></div>
+                    </div>
+                    <!-- Image 2 -->
+                    <div class="portfolio-thumb">
+                        <img src="path_to_your_image_2.jpg" alt="Portfolio 2" onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'flex flex-col items-center justify-center h-full\'><i class=\'fas fa-image text-sb-gold/20 text-xl\'></i><span class=\'text-[7px] mt-1 text-sb-gold/40 uppercase tracking-tighter\'>Slot 2</span></div>'">
+                        <div class="img-overlay"></div>
+                    </div>
+                    <!-- Image 3 -->
+                    <div class="portfolio-thumb">
+                        <img src="path_to_your_image_3.jpg" alt="Portfolio 3" onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'flex flex-col items-center justify-center h-full\'><i class=\'fas fa-image text-sb-gold/20 text-xl\'></i><span class=\'text-[7px] mt-1 text-sb-gold/40 uppercase tracking-tighter\'>Slot 3</span></div>'">
+                        <div class="img-overlay"></div>
+                    </div>
+                </div>
+
+                <a href="https://www.instagram.com/shutterandbloomsl?igsh=MTl3eWF6emNtaXJleg%3D%3D" target="_blank" class="block w-full py-4 bg-sb-gold rounded-2xl text-sb-emerald-dark font-bold text-xs uppercase tracking-widest sweep-effect relative overflow-hidden">
+                    Open Full Gallery
+                </a>
+            </div>
+            
+            <div class="text-center">
+                <p class="text-sb-gold/40 text-[8px] font-bold tracking-[0.6em] uppercase">Est. 2024 • Kohalwila Rd, Kiribathgoda</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAP SELECTION MODAL -->
+    <div id="mapModal" class="modal items-center justify-center p-6">
+        <div class="glass-panel w-full max-w-xs p-8 rounded-[2rem] text-center border-sb-gold/40">
+            <h3 class="text-sb-gold text-xs uppercase tracking-[0.3em] mb-6 font-bold">Choose Navigation</h3>
+            <div class="space-y-4">
+                <button onclick="navigate('google')" class="w-full bg-white/10 py-4 rounded-xl border border-white/20 text-white font-bold text-sm hover:bg-sb-gold hover:text-sb-emerald-dark transition-colors">
+                    Google Maps
+                </button>
+                <button onclick="navigate('apple')" class="w-full bg-white/10 py-4 rounded-xl border border-white/20 text-white font-bold text-sm hover:bg-sb-gold hover:text-sb-emerald-dark transition-colors">
+                    Apple Maps
+                </button>
+                <button onclick="closeMapModal()" class="w-full pt-4 text-[10px] uppercase tracking-widest text-gray-500 font-bold">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Particle Background Script
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5;
+                this.speed = Math.random() * 0.3;
+                this.opacity = Math.random() * 0.4;
+            }
+            update() {
+                this.y -= this.speed;
+                if (this.y < 0) this.reset();
+            }
+            draw() {
+                ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            for(let i = 0; i < 40; i++) particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        initParticles();
+        animate();
+
+        // Page Logic
+        const loadingScreen = document.getElementById('loadingScreen');
+        const introPage = document.getElementById('introPage');
+        const homePage = document.getElementById('homePage');
+        const mapModal = document.getElementById('mapModal');
+
+        window.onload = () => {
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.classList.add('hidden');
+                    introPage.classList.remove('hidden');
+                    setTimeout(() => { 
+                        introPage.style.opacity = '1'; 
+                        document.querySelectorAll('.reveal-element').forEach(el => el.classList.add('is-visible'));
+                    }, 50);
+                }, 800);
+            }, 4500); 
+        };
+
+        function goToHub() {
+            introPage.style.opacity = '0';
+            setTimeout(() => {
+                introPage.classList.add('hidden');
+                homePage.classList.remove('hidden');
+                setTimeout(() => { homePage.style.opacity = '1'; }, 50);
+            }, 800);
+        }
+
+        // Map Functions
+        const studioAddress = "Kohalwila Rd, Peliyagoda, Kiribathgoda";
+        
+        function openMapModal() {
+            mapModal.style.display = 'flex';
+        }
+
+        function closeMapModal() {
+            mapModal.style.display = 'none';
+        }
+
+        function navigate(type) {
+            const encodedAddr = encodeURIComponent(studioAddress);
+            if (type === 'google') {
+                window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodedAddr}`, '_blank');
+            } else {
+                window.open(`http://maps.apple.com/?daddr=${encodedAddr}`, '_blank');
+            }
+            closeMapModal();
+        }
+    </script>
+</body>
+</html>
