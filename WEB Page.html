@@ -18,12 +18,14 @@
                 display: ['Playfair Display', 'serif'],
               },
               colors: {
-                'sb-navy': '#0f172a',      /* Deep Charcoal/Slate Background */
-                'sb-navy-light': '#1e293b', /* Surface Slate */
-                'sb-accent': '#f8fafc',    /* Professional Pure White Accent */
-                'sb-accent-light': '#ffffff', /* Bright White Highlight */
-                'sb-chalk': '#f8fafc',     /* High-contrast text */
-                'sb-steel': '#94a3b8'      /* Muted Steel Gray */
+                'sb-navy': '#0f172a',
+                'sb-navy-light': '#1e293b',
+                'sb-accent': '#f8fafc',
+                'sb-accent-light': '#ffffff',
+                'sb-chalk': '#f8fafc',
+                'sb-steel': '#94a3b8',
+                'wa-green': '#25D366',
+                'fb-blue': '#1877F2'
               }
             }
           }
@@ -157,12 +159,34 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.7;
+            opacity: 0.8;
             transition: opacity 0.4s ease;
         }
 
         .portfolio-thumb:hover img {
             opacity: 1;
+        }
+
+        /* Custom Tabs */
+        .tab-btn.active {
+            background-color: rgba(248, 250, 252, 0.1);
+            border-color: rgba(248, 250, 252, 0.4);
+            color: #f8fafc;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Instagram Gradient Icon */
+        .ig-icon {
+            background: -webkit-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     </style>
 </head>
@@ -180,7 +204,7 @@
                     Shutter <span class="shimmer-text">&</span> Bloom
                 </h1>
                 <div class="w-16 h-[1px] bg-sb-accent/20 mx-auto mb-4"></div>
-                <p class="text-[10px] uppercase tracking-[0.4em] text-sb-steel animate-pulse">Initializing Visionary Studio</p>
+                <p class="text-[10px] uppercase tracking-[0.4em] text-sb-steel animate-pulse">Initializing visionary studio </p>
             </div>
             <div class="mt-16 w-12 h-12 border-t-2 border-sb-accent/10 border-r-2 border-r-sb-accent rounded-full animate-spin"></div>
         </div>
@@ -212,14 +236,14 @@
                     <p class="text-[13px] text-sb-steel italic leading-relaxed">
                         "Perspective is everything. Using industry leading <span class="text-sb-chalk font-semibold border-b border-sb-accent/20">Sony & Canon</span> 4K imaging to turn moments into feelings."
                     </p>
-                    <p class="text-sb-accent/40 text-[8px] uppercase tracking-widest mt-3 font-bold">— The standard</p>
+                    <p class="text-sb-accent/40 text-[8px] uppercase tracking-widest mt-3 font-bold">— The Standard</p>
                 </div>
 
                 <div class="quote-card p-6 reveal-element" style="animation-delay: 0.8s;">
                     <p class="text-[13px] text-sb-steel italic leading-relaxed">
                         "Timelessness isn't accidental. It is the result of seeing beauty where others see the mundane."
                     </p>
-                    <p class="text-sb-accent/40 text-[8px] uppercase tracking-widest mt-3 font-bold">— The mission</p>
+                    <p class="text-sb-accent/40 text-[8px] uppercase tracking-widest mt-3 font-bold">— The Mission</p>
                 </div>
 
                 <div class="quote-card p-6 reveal-element" style="animation-delay: 1s;">
@@ -243,36 +267,176 @@
         <div class="max-w-md w-full text-center">
             
             <div class="glass-panel p-10 rounded-3xl mt-20 mb-8">
-                <h2 class="text-4xl font-display text-sb-chalk tracking-tight mb-2 uppercase leading-tight">Shutter <br> <span class="text-sb-accent opacity-50">&</span> Blooms</h2>
+                <h2 class="text-4xl font-display text-sb-chalk tracking-tight mb-2 uppercase leading-tight">Shutter <br> <span class="text-sb-accent opacity-50">&</span> Bloom</h2>
                 <div class="w-12 h-[1px] bg-sb-chalk/10 mx-auto mb-10"></div>
 
                 <div class="space-y-4">
                     <a href="https://wa.me/94764252850" class="block w-full text-sb-chalk bg-white/5 py-5 rounded-2xl transition-all active:scale-95 border border-white/5 flex items-center px-6 hover:bg-white/10 group">
-                        <i class="fab fa-whatsapp text-2xl text-sb-accent group-hover:text-sb-accent-light transition-colors"></i>
+                        <i class="fab fa-whatsapp text-2xl text-wa-green transition-transform group-hover:scale-110"></i>
                         <div class="text-left flex-1 pl-5">
                             <span class="block font-bold text-sm uppercase tracking-widest">Book Your Session</span>
-                            <span class="text-[9px] text-sb-steel uppercase">Direct Chat: 076 425 2850</span>
+                            <span class="text-[9px] text-sb-steel uppercase">Direct: 076 425 2850</span>
                         </div>
                     </a>
 
                     <a href="https://www.facebook.com/profile.php?id=61584207510600&sk=about" target="_blank" class="block w-full text-sb-chalk bg-white/5 py-5 rounded-2xl transition-all active:scale-95 border border-white/5 flex items-center px-6 hover:bg-white/10 group">
-                        <i class="fab fa-facebook-f text-xl text-sb-accent group-hover:text-sb-accent-light transition-colors"></i>
+                        <i class="fab fa-facebook-f text-xl text-fb-blue transition-transform group-hover:scale-110"></i>
                         <div class="text-left flex-1 pl-6">
                             <span class="block font-bold text-sm uppercase tracking-widest">Facebook Profile</span>
-                            <span class="text-[9px] text-sb-steel uppercase">Connect on social</span>
+                            <span class="text-[9px] text-sb-steel uppercase">CONNECT ON SOCIAL</span>
                         </div>
                     </a>
 
                     <a href="https://www.instagram.com/shutterandbloomsl?igsh=MTl3eWF6emNtaXJleg%3D%3D" target="_blank" class="block w-full text-sb-chalk bg-white/5 py-5 rounded-2xl transition-all active:scale-95 border border-white/5 flex items-center px-6 hover:bg-white/10 group">
-                        <i class="fab fa-instagram text-xl text-sb-accent group-hover:text-sb-accent-light transition-colors"></i>
+                        <i class="fab fa-instagram text-xl ig-icon transition-transform group-hover:scale-110"></i>
                         <div class="text-left flex-1 pl-6">
                             <span class="block font-bold text-sm uppercase tracking-widest">Instagram Profile</span>
-                            <span class="text-[9px] text-sb-steel uppercase">Daily Inspiration</span>
+                            <span class="text-[9px] text-sb-steel uppercase">Daily inspiration</span>
                         </div>
                     </a>
                 </div>
             </div>
 
+            <!-- PACKAGES SECTION -->
+            <div class="glass-panel p-8 rounded-3xl mb-8 text-left">
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="text-2xl font-display text-sb-chalk uppercase tracking-tighter">Packages</h3>
+                    <div class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center">
+                        <i class="fas fa-tags text-sb-accent text-xs"></i>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="flex gap-2 mb-8 overflow-x-auto pb-2 no-scrollbar">
+                    <button onclick="switchTab('portraits')" id="tab-portraits" class="tab-btn active px-4 py-2 rounded-full border border-white/10 text-[10px] uppercase tracking-widest font-bold whitespace-nowrap transition-all">Portraits</button>
+                    <button onclick="switchTab('wedding')" id="tab-wedding" class="tab-btn px-4 py-2 rounded-full border border-white/10 text-[10px] uppercase tracking-widest font-bold whitespace-nowrap transition-all text-sb-steel">Wedding</button>
+                    <button onclick="switchTab('sports')" id="tab-sports" class="tab-btn px-4 py-2 rounded-full border border-white/10 text-[10px] uppercase tracking-widest font-bold whitespace-nowrap transition-all text-sb-steel">Sports</button>
+                    <button onclick="switchTab('concert')" id="tab-concert" class="tab-btn px-4 py-2 rounded-full border border-white/10 text-[10px] uppercase tracking-widest font-bold whitespace-nowrap transition-all text-sb-steel">Concerts</button>
+                </div>
+
+                <!-- Portrait Tab -->
+                <div id="content-portraits" class="space-y-4 tab-content">
+                    <div class="flex justify-between items-center p-4 bg-white/5 rounded-xl border border-white/5">
+                        <span class="text-sm font-bold tracking-tight">10 Photos</span>
+                        <span class="text-sb-accent font-display text-lg tracking-widest">Rs 8,000</span>
+                    </div>
+                    <div class="flex justify-between items-center p-4 bg-white/5 rounded-xl border border-white/5">
+                        <span class="text-sm font-bold tracking-tight">50 Photos</span>
+                        <span class="text-sb-accent font-display text-lg tracking-widest">Rs 20,000</span>
+                    </div>
+                    <div class="flex justify-between items-center p-4 bg-white/5 rounded-xl border border-white/5">
+                        <span class="text-sm font-bold tracking-tight">70 Photos</span>
+                        <span class="text-sb-accent font-display text-lg tracking-widest">Rs 30,000</span>
+                    </div>
+                    <p class="text-[9px] text-sb-steel uppercase text-center mt-4 tracking-widest">Includes 1-4 hour service charge</p>
+                </div>
+
+                <!-- Wedding Tab -->
+                <div id="content-wedding" class="hidden space-y-6 tab-content">
+                    <!-- Bronze -->
+                    <div class="p-5 bg-white/5 rounded-xl border border-white/5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-xs uppercase tracking-widest font-bold">Bronze Package</h4>
+                            <span class="text-sb-accent text-sm font-display tracking-widest">Rs 30,000</span>
+                        </div>
+                        <ul class="text-[11px] text-sb-steel space-y-2">
+                            <li><i class="fas fa-video text-sb-accent text-[8px] mr-2"></i>Morning session videography</li>
+                            <li><i class="fas fa-video text-sb-accent text-[8px] mr-2"></i>Candid videography</li>
+                            <li><i class="fas fa-video text-sb-accent text-[8px] mr-2"></i>Wedding day video (Full day)</li>
+                            <li><i class="fas fa-video text-sb-accent text-[8px] mr-2"></i>Highlight video (10-15 min)</li>
+                            <li><i class="fas fa-camera text-sb-accent text-[8px] mr-2"></i>1 camera</li>
+                        </ul>
+                    </div>
+                    <!-- Silver -->
+                    <div class="p-5 bg-white/5 rounded-xl border border-white/5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-xs uppercase tracking-widest font-bold">Silver Package</h4>
+                            <span class="text-sb-accent text-sm font-display tracking-widest">Rs 50,000</span>
+                        </div>
+                        <ul class="text-[11px] text-sb-steel space-y-2">
+                            <li><i class="fas fa-video text-sb-accent text-[8px] mr-2"></i>Morning session videography</li>
+                            <li><i class="fas fa-video text-sb-accent text-[8px] mr-2"></i>Candid videography</li>
+                            <li><i class="fas fa-video text-sb-accent text-[8px] mr-2"></i>Wedding day video (Full day)</li>
+                            <li><i class="fas fa-video text-sb-accent text-[8px] mr-2"></i>Highlight video (10-25 min)</li>
+                            <li><i class="fas fa-camera text-sb-accent text-[8px] mr-2"></i>2 cameras</li>
+                        </ul>
+                    </div>
+                    <!-- Gold -->
+                    <div class="p-5 bg-white/5 rounded-xl border border-white/5 ring-1 ring-sb-accent/30 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-sb-accent text-sb-navy text-[7px] font-bold uppercase px-3 py-1 tracking-tighter">Best Package</div>
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-xs uppercase tracking-widest font-bold">Gold Package</h4>
+                            <span class="text-sb-accent text-sm font-display tracking-widest">Rs 80,000</span>
+                        </div>
+                        <ul class="text-[11px] text-sb-steel space-y-2">
+                            <li><i class="fas fa-check text-sb-accent text-[8px] mr-2"></i>Morning & Candid Videography</li>
+                            <li><i class="fas fa-check text-sb-accent text-[8px] mr-2"></i>Wedding day video (Full day)</li>
+                            <li><i class="fas fa-check text-sb-accent text-[8px] mr-2"></i>Highlight video (10-25 min)</li>
+                            <li><i class="fas fa-check text-sb-accent text-[8px] mr-2"></i>Drone videography</li>
+                            <li><i class="fas fa-check text-sb-accent text-[8px] mr-2"></i>Pre-shoot video</li>
+                            <li><i class="fas fa-camera text-sb-accent text-[8px] mr-2"></i>3 cameras</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Sports Tab -->
+                <div id="content-sports" class="hidden space-y-6 tab-content">
+                    <div class="p-5 bg-white/5 rounded-xl border border-white/5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-xs uppercase tracking-widest font-bold">Package 01</h4>
+                            <span class="text-sb-accent text-sm font-display tracking-widest">Rs 20,000</span>
+                        </div>
+                        <ul class="text-[11px] text-sb-steel space-y-2">
+                            <li><i class="fas fa-check text-sb-accent text-[8px] mr-2"></i>Limited photos</li>
+                            <li><i class="fas fa-check text-sb-accent text-[8px] mr-2"></i>Editing done in 1-2 days</li>
+                            <li><i class="fas fa-check text-sb-accent text-[8px] mr-2"></i>Given in pen drive</li>
+                            <li><i class="fas fa-check text-sb-accent text-[8px] mr-2"></i>Full day event coverage</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 bg-white/5 rounded-xl border border-white/5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-xs uppercase tracking-widest font-bold">Package 02</h4>
+                            <span class="text-sb-accent text-sm font-display tracking-widest">Rs 40,000</span>
+                        </div>
+                        <ul class="text-[11px] text-sb-steel space-y-2">
+                            <li><i class="fas fa-check text-sb-accent text-[8px] mr-2"></i>Limited photos (600-900)</li>
+                            <li><i class="fas fa-check text-sb-accent text-[8px] mr-2"></i>Editing done in 1-2 days</li>
+                            <li><i class="fas fa-check text-sb-accent text-[8px] mr-2"></i>Given in pen drive</li>
+                            <li><i class="fas fa-check text-sb-accent text-[8px] mr-2"></i>Full day event coverage</li>
+                            <li><i class="fas fa-check text-sb-accent text-[8px] mr-2"></i>Portraits</li>
+                            <li><i class="fas fa-check text-sb-accent text-[8px] mr-2"></i>Drone videography</li>
+                            <li><i class="fas fa-check text-sb-accent text-[8px] mr-2"></i>5 min trailer video</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Concert Tab -->
+                <div id="content-concert" class="hidden space-y-6 tab-content">
+                    <div class="p-5 bg-white/5 rounded-xl border border-white/5">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="text-xs uppercase tracking-widest font-bold">Concert Coverage</h4>
+                            <span class="text-sb-accent text-sm font-display tracking-widest">Rs 30,000</span>
+                        </div>
+                        <ul class="text-[11px] text-sb-steel space-y-2">
+                            <li><i class="fas fa-check text-sb-accent text-[8px] mr-2"></i>Full day coverage</li>
+                            <li><i class="fas fa-check text-sb-accent text-[8px] mr-2"></i>Unlimited photos (200-300)</li>
+                            <li><i class="fas fa-check text-sb-accent text-[8px] mr-2"></i>2 Cameras</li>
+                        </ul>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="p-3 bg-white/5 rounded-xl border border-white/5 text-center">
+                            <p class="text-[8px] uppercase text-sb-steel tracking-widest mb-1">Add Camera</p>
+                            <p class="text-xs font-bold font-display">Rs 10,000</p>
+                        </div>
+                        <div class="p-3 bg-white/5 rounded-xl border border-white/5 text-center">
+                            <p class="text-[8px] uppercase text-sb-steel tracking-widest mb-1">Drone</p>
+                            <p class="text-xs font-bold font-display">Rs 9,000</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GALLERY SECTION -->
             <div class="glass-panel p-8 rounded-3xl mb-10 overflow-hidden relative">
                 <div class="flex justify-between items-end mb-6">
                     <div class="text-left">
@@ -282,15 +446,16 @@
                     <a href="https://www.instagram.com/shutterandbloomsl?igsh=MTl3eWF6emNtaXJleg%3D%3D" target="_blank" class="text-sb-steel text-[10px] uppercase tracking-widest border-b border-sb-steel/20 pb-1 hover:text-sb-accent hover:border-sb-accent transition-all">VIEW ALL</a>
                 </div>
 
-                <div class="grid grid-cols-3 gap-3 mb-8">
+                <!-- PORTFOLIO IMAGES -->
+                <div class="grid grid-cols-3 gap-3 mb-8" id="portfolio-gallery">
                     <div class="portfolio-thumb">
-                        <img src="img1.jpg" alt="Portfolio 1" onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'flex items-center justify-center h-full\'><i class=\'fas fa-camera text-sb-accent/20 text-xl\'></i></div>'">
+                        <img src="img1.jpg" alt="Portfolio Image 1" class="gallery-img">
                     </div>
                     <div class="portfolio-thumb">
-                        <img src="img2.jpg" alt="Portfolio 2" onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'flex items-center justify-center h-full\'><i class=\'fas fa-camera text-sb-accent/20 text-xl\'></i></div>'">
+                        <img src="img2.jpg" alt="Portfolio Image 2" class="gallery-img">
                     </div>
                     <div class="portfolio-thumb">
-                        <img src="img3.jpg" alt="Portfolio 3" onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'flex items-center justify-center h-full\'><i class=\'fas fa-camera text-sb-accent/20 text-xl\'></i></div>'">
+                        <img src="img3.jpg" alt="Portfolio Image 3" class="gallery-img">
                     </div>
                 </div>
 
@@ -306,6 +471,20 @@
     </div>
 
     <script>
+        // Gallery Error Handling
+        document.querySelectorAll('.gallery-img').forEach(img => {
+            img.onerror = () => {
+                img.style.display = 'none';
+                img.parentNode.classList.add('flex', 'items-center', 'justify-center');
+                img.parentNode.innerHTML = `
+                    <div class="text-center p-2">
+                        <i class="fas fa-camera-retro text-sb-accent/10 text-xl block mb-1"></i>
+                        <span class="text-[6px] uppercase tracking-tighter text-sb-steel/40 font-bold">Image Missing</span>
+                    </div>
+                `;
+            };
+        });
+
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -336,7 +515,7 @@
                         document.querySelectorAll('.reveal-element').forEach(el => el.classList.add('is-visible'));
                     }, 50);
                 }, 800);
-            }, 4500); 
+            }, 3000); 
         };
 
         function goToHub() {
@@ -346,6 +525,20 @@
                 homePage.classList.remove('hidden');
                 setTimeout(() => { homePage.style.opacity = '1'; }, 50);
             }, 800);
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active', 'text-sb-chalk');
+                btn.classList.add('text-sb-steel');
+            });
+            document.getElementById('tab-' + tabId).classList.add('active', 'text-sb-chalk');
+            document.getElementById('tab-' + tabId).classList.remove('text-sb-steel');
+
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            document.getElementById('content-' + tabId).classList.remove('hidden');
         }
     </script>
 </body>
